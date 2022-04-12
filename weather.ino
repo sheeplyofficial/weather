@@ -5,7 +5,7 @@
 //Supporting the following project: https://www.instructables.com/Solar-Powered-WiFi-Weather-Station-V30/
 
 //version 1.3 RC1
-#define VERSION 1.3
+#define VERSION "1.3"
 
 //=============================================
 // Changelog
@@ -45,7 +45,7 @@
 //===========================================
 // Includes
 //===========================================
-#include "secrets.h"
+#include "sec.h"
 #include <esp_wifi.h>
 #include <time.h>
 #include <BlynkSimpleEsp32.h>
@@ -70,13 +70,13 @@
 //===========================================
 //If you are using a Thomas Krebs designed PCB that does not use a standard devkit, place a #define KREBS_PCB in your secrets.h
 #ifndef KREBS_PCB
-#define WIND_SPD_PIN 14  //reed switch based anemometer count
+#define WIND_SPD_PIN 26  //reed switch based anemometer count
 #define RAIN_PIN     25  //reed switch based tick counter on tip bucket
 #define WIND_DIR_PIN 35  //variable voltage divider output based on varying R network with reed switches
 #define PR_PIN       15  //photoresistor pin 
-#define VOLT_PIN     33  //voltage divider for battery monitor
-#define TEMP_PIN      4  // DS18B20 hooked up to GPIO pin 4
-#define LED_BUILTIN   2  //Diagnostics using built-in LED, may be set to 12 for newer boards that do not use devkit sockets
+#define VOLT_PIN     32  //voltage divider for battery monitor
+#define TEMP_PIN      27  // DS18B20 hooked up to GPIO pin 4
+#define LED_BUILTIN   13  //Diagnostics using built-in LED, may be set to 12 for newer boards that do not use devkit sockets
 #define SEC 1E6          //Multiplier for uS based math
 #define WDT_TIMEOUT 60   //watchdog timer
 
@@ -264,11 +264,6 @@ void processSensorUpdates(void)
 #endif
   //send sensor data to IOT destination
   sendData(&environment);
-  //send sensor data to MQTT
-  if (App == "MQTT")
-  {
-    SendDataMQTT(&environment);
-  }
 }
 
 //===========================================================
@@ -299,7 +294,7 @@ void wakeup_reason()
       WiFiEnable = true;
       //Rainfall interrupt pin set up
       delay(100); //possible settling time on pin to charge
-      attachInterrupt(digitalPinToInterrupt(RAIN_PIN), rainTick, FALLING);
+      attachInterrupt(digitalPinToInterrupt(RAIN_PIN), rainTick, RISING);
       attachInterrupt(digitalPinToInterrupt(WIND_SPD_PIN), windTick, RISING);
       break;
 
@@ -324,7 +319,7 @@ void sleepyTime(long UpdateIntervalModified)
 
   rtc_gpio_set_level(GPIO_NUM_12, 0);
   esp_sleep_enable_timer_wakeup(UpdateIntervalModified * SEC);
-  esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 0);
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_25, 1);
   elapsedTime = (int)millis() / 1000;
   esp_deep_sleep_start();
 }

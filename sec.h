@@ -11,8 +11,8 @@
 //===========================================
 //WiFi connection
 //===========================================
-char ssid[] = "ssid"; // WiFi Router ssid
-char pass[] = "password"; // WiFi Router password
+char ssid[] = "AmiNet"; // WiFi Router ssid
+char pass[] = "Amadeusz1Ofca"; // WiFi Router password
 
 //===========================================
 //Blynk connection
@@ -30,17 +30,17 @@ const char* api_key = "api_key";
 //MQTT broker connection
 //===========================================
 //const char* mqttServer = "test.mosquitto.org";
-const char* mqttServer = "192.168.5.74";
+const char* mqttServer = "broker.mqttdashboard.com";
 const int mqttPort = 1883;
-const char* mqttUser = "username";
-const char* mqttPassword = "password";
-const char mainTopic[20] = "MainTopic/";
+const char* mqttUser = "";
+const char* mqttPassword = "";
+const char mainTopic[20] = "WetSheep/";
 
 
 //===========================================
 //Metric or Imperial measurements
 //===========================================
-//#define METRIC
+#define METRIC
 
 //===========================================
 //Use optional NVM for backup
@@ -52,7 +52,7 @@ const char mainTopic[20] = "MainTopic/";
 //===========================================
 //BH1750 Enable
 //===========================================
-#define BH1750Enable
+//#define BH1750Enable
 
 //===========================================
 //Anemometer Calibration
@@ -64,7 +64,7 @@ const char mainTopic[20] = "MainTopic/";
 //Set how often to wake and read sensors
 //===========================================
 //const int UpdateIntervalSeconds = 15 * 60;  //Sleep timer (900s) for my normal operation
-const int UpdateIntervalSeconds = 5 * 60;  //Sleep timer (60s) testing
+const int UpdateIntervalSeconds = 1 * 60;  //Sleep timer (60s) testing
 
 //===========================================
 //Battery calibration
@@ -76,8 +76,8 @@ const int UpdateIntervalSeconds = 5 * 60;  //Sleep timer (60s) testing
 //Timezone information
 //===========================================
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = -7 * 3600;
-const int   daylightOffset_sec = 3600;
+const long  gmtOffset_sec = 2 * 3600;
+const int   daylightOffset_sec = 0 * 3600;
 
 //========================= Enable Blynk, MQTT or Thingspeak ===================================
 //const String App = "BLYNK";         //  alternative is line below
